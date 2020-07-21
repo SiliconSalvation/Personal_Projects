@@ -1,0 +1,57 @@
+CREATE TABLE FormingReport_T (
+	WorkOrderNumber		varchar2(12),
+	FRDate				DATE,
+	Shift				INTEGER,
+	CrusherTankLetter	CHAR(1),
+	MachineNum			VARCHAR2(4),
+	ProductCode			VARCHAR2(20),
+	ProductDescription	VARCHAR2(60),
+	FeedLength			NUMERIC,
+	CasesMoved			INTEGER,
+	PiecesInShot		INTEGER,
+	PiecesPerCase		INTEGER,
+	FormingReportID	varchar2(20)		NOT NULL		UNIQUE,
+	CONSTRAINT	FormingReport_PK	PRIMARY KEY(FormingReportID)
+);
+
+CREATE TABLE Rolls_T (
+	RollNum				VARCHAR2(18)	NOT NULL,
+	FormingReportNum	INTEGER,
+	SheetCode			VARCHAR2(18),
+	ExtrusionMONum		VARCHAR2(12),
+	DateTimeMade		DATETIME,
+	RollLength			INTEGER,
+	RollWeight			INTEGER,
+	Shots				INTEGER,
+	AvgPartWeight		NUMERIC,
+	CONSTRAINT			Rolls_PK	PRIMARY KEY(RollNum, FormingReportNum),
+	CONSTRAINT			Rolls_FK1	FOREIGN KEY(FormingReportNum) REFERENCES FormingReport_T(FormingReportID) ON DELETE SET NULL
+);
+
+CREATE TABLE Scrap_T (
+	ScrapTicketIDNum		INTEGER		NOT NULL,
+	FormingReportID			INTEGER,
+	Weight					NUMERIC,
+	CONSTRAINT	ScrapTicketIDNum_PK		PRIMARY KEY(ScrapTicketIDNUM, FormingReportID),
+	CONSTRAINT	ScrapTicket_FK1			FOREIGN KEY(FormingReportID) REFERENCES FormingReport_T(FormingReportID) ON DELETE SET NULL
+);
+
+CREATE TABLE Technicians_T (
+	EmployeeID			INTEGER,
+	EmployeeFName		VARCHAR2(20),
+	EmployeeLName		VARCHAR2(20),
+	EmployeeHoursWorked	INTEGER,
+	FormingReportID		INTEGER,
+	CONSTRAINT	Technicians_PK	PRIMARY KEY(EmployeeID, FormingReportID),
+	CONSTRAINT	Tech_FK1		FOREIGN KEY(FormingReportID) REFERENCES FormingReport_T(FormingReportID) ON DELETE SET NULL
+);
+
+CREATE TABLE Utility_T (
+	EmployeeID			INTEGER,
+	EmployeeFName		VARCHAR2(20),
+	EmployeeLName		VARCHAR2(20),
+	EmployeeHoursWorked	INTEGER,
+	FormingReportID		INTEGER,
+	CONSTRAINT	Utility_PK		PRIMARY KEY(EmployeeID, FormingReportID),
+	CONSTRAINT	Utility_FK1		FOREIGN KEY(FormingReportID) REFERENCES FormingReport_T(FormingReportID) ON DELETE SET NULL
+);
