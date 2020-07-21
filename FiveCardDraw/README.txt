@@ -1,0 +1,1 @@
+FiveCardDraw is an application I wrote while flying to pass time and create a simple game in the process. This application is written in java and some parts are unfinished. The game is my implementation of the classic five card draw solitaire poker game.
